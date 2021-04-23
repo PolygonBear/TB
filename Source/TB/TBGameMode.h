@@ -11,7 +11,7 @@ class ATBGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
-public:
+protected:
 	ATBGameMode();
 };
 

@@ -6,24 +6,27 @@
 
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "TB/Characters/EnemyCharacter.h"
+#include "TB/PointOfInterests/PointOfInterests.h"
+
 
 void ATBAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
 	PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	AEnemyCharacter* EnemyCharacter = Cast<AEnemyCharacter>(GetPawn());
+	APointOfInterests* Points = Cast<APointOfInterests>(GetPawn());
 	if(AIBehavior !=nullptr)
 	{
 		RunBehaviorTree(AIBehavior);
 		GetBlackboardComponent()->SetValueAsVector(TEXT("StartLocation"), GetPawn()->GetActorLocation());
 		
-		if(EnemyCharacter != nullptr)
+		if(Points != nullptr)
 		{
-			GetBlackboardComponent()->SetValueAsVector(TEXT("FirstLocation"), GetPawn()->GetActorLocation() + EnemyCharacter->FirstLocation);
-			GetBlackboardComponent()->SetValueAsVector(TEXT("SecondLocation"), GetPawn()->GetActorLocation() + EnemyCharacter->SecondLocation);	
-			GetBlackboardComponent()->SetValueAsVector(TEXT("ThirdLocation"), GetPawn()->GetActorLocation() + EnemyCharacter->ThirdLocation);	
+			GetBlackboardComponent()->SetValueAsVector(TEXT("FirstLocation"), GetPawn()->GetActorLocation() + Points->FirstLocation);
+			GetBlackboardComponent()->SetValueAsVector(TEXT("SecondLocation"), GetPawn()->GetActorLocation() + Points->SecondLocation);	
+			GetBlackboardComponent()->SetValueAsVector(TEXT("ThirdLocation"), GetPawn()->GetActorLocation() + Points->ThirdLocation);
+			GetBlackboardComponent()->SetValueAsVector(TEXT("FourthLocation"), GetPawn()->GetActorLocation() + Points->FourthLocation);
+			GetBlackboardComponent()->SetValueAsVector(TEXT("ThirdLocation"), GetPawn()->GetActorLocation() + Points->FifthLocation);	
 		}
 		else UE_LOG(LogTemp, Error, TEXT("cast failed"));
 	}
@@ -31,8 +34,7 @@ void ATBAIController::BeginPlay()
 
 void ATBAIController::Tick(float DeltaSeconds)
 {
-	Super::Tick(DeltaSeconds);
-	
+	Super::Tick(DeltaSeconds);	
 }
 
 
