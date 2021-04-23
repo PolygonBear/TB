@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "PointOfInterests.generated.h"
 
+class USphereComponent;
 UCLASS()
 class TB_API APointOfInterests : public AActor
 {
@@ -14,6 +15,9 @@ class TB_API APointOfInterests : public AActor
 public:	
 	APointOfInterests();
 
+	UPROPERTY(EditDefaultsOnly)
+	USphereComponent* Collision;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -21,15 +25,8 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere, meta = (MakeEditWidget))
-	FVector FirstLocation;
-	UPROPERTY(EditAnywhere, meta = (MakeEditWidget))
-	FVector SecondLocation;
-	UPROPERTY(EditAnywhere, meta = (MakeEditWidget))
-	FVector ThirdLocation;
-	UPROPERTY(EditAnywhere, meta = (MakeEditWidget))
-	FVector FourthLocation;
-	UPROPERTY(EditAnywhere, meta = (MakeEditWidget))
-	FVector FifthLocation;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsOccupied = false;
+	// void OnOverlap(UPrimitiveComponent* OverlappedComponent,AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+	// void OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };
