@@ -9,10 +9,10 @@
 
 UENUM(BlueprintType)
 enum class WorkersState : uint8 {
-	Work,
-	Idle,
-	Hand,
-	Inspire
+	Work ,
+	Idle ,
+	Hand ,
+	Inspire 
 };
 
 UCLASS()
@@ -21,19 +21,27 @@ class TB_API AEnemyCharacter : public ATBCharacter
 	GENERATED_BODY()
 
 public:
+	virtual void Tick(float DeltaSeconds) override;	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	WorkersState WorkerState;
 
 	UPROPERTY(EditAnywhere)
-	WorkersState WorkerState = WorkersState::Work;
-
+	float AIWorkPoints;
+	
 	float PlayerWorkPoints;
 	
 	UPROPERTY(EditAnywhere)
 	float PlayerWorkPointsDivision = 2.f;
 
-	virtual void Tick(float DeltaSeconds) override;
+	bool bPretendWorking = false;
+
+	WorkersState ChangeWorkingState();
 
 protected:
-	virtual void BeginPlay() override;	
+	virtual void BeginPlay() override;
+
+	
 	
 	
 };
