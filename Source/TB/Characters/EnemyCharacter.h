@@ -15,6 +15,13 @@ enum class WorkersState : uint8 {
 	Inspire 
 };
 
+UENUM(BlueprintType)
+enum class WorkersMood : uint8 {
+	Good ,
+	Normal ,
+	Bad 
+};
+
 UCLASS()
 class TB_API AEnemyCharacter : public ATBCharacter
 {
@@ -25,7 +32,17 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	WorkersState WorkerState;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	WorkersMood WorkerMood;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MaxMood = 100.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = 0.0f, UIMin = 0.0f))
+	float CurrentMood;
+	UPROPERTY(EditAnywhere)
+	float MoodDecraseRate = 1.f;
 
+	void DecreaseMood(float DeltaSeconds);
+	
 	UPROPERTY(EditAnywhere)
 	float AIWorkPoints;
 	
@@ -34,14 +51,11 @@ public:
 	UPROPERTY(EditAnywhere)
 	float PlayerWorkPointsDivision = 2.f;
 
-	bool bPretendWorking = false;
-
 	WorkersState ChangeWorkingState();
+	WorkersMood ChangeWorkingMood();
+	
 
 protected:
 	virtual void BeginPlay() override;
-
-	
-	
-	
+	void CheckWorkerState();
 };
