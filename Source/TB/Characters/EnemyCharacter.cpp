@@ -2,7 +2,6 @@
 
 
 #include "EnemyCharacter.h"
-
 #include "Kismet/GameplayStatics.h"
 
 void AEnemyCharacter::Tick(float DeltaSeconds)
