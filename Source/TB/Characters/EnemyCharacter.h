@@ -7,20 +7,33 @@
 
 #include "EnemyCharacter.generated.h"
 
-/**
- * 
- */
+UENUM(BlueprintType)
+enum class WorkersState : uint8 {
+	Work,
+	Idle,
+	Hand,
+	Inspire
+};
+
 UCLASS()
 class TB_API AEnemyCharacter : public ATBCharacter
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, meta = (MakeEditWidget))
-	FVector FirstLocation;
-	UPROPERTY(EditAnywhere, meta = (MakeEditWidget))
-	FVector SecondLocation;
-	UPROPERTY(EditAnywhere, meta = (MakeEditWidget))
-	FVector ThirdLocation;		
+
+	UPROPERTY(EditAnywhere)
+	WorkersState WorkerState = WorkersState::Work;
+
+	float PlayerWorkPoints;
+	
+	UPROPERTY(EditAnywhere)
+	float PlayerWorkPointsDivision = 2.f;
+
+	virtual void Tick(float DeltaSeconds) override;
+
+protected:
+	virtual void BeginPlay() override;	
+	
 	
 };
