@@ -1,6 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "TBGameMode.h"
+
+#include "EngineUtils.h"
 #include "Characters/EnemyCharacter.h"
 #include "Controllers/TBAIController.h"
 #include "Kismet/GameplayStatics.h"
@@ -21,16 +23,24 @@ void ATBGameMode::BeginPlay()
 	//Проверка общего настроения каждые 5 секунд 
 	FTimerHandle TimerHandle;
 	FTimerHandle TimerHandle2;
+	FTimerHandle TimerHandle3;
 	FTimerDelegate TimerDel;
 	TimerDel.BindUFunction(this, FName("CheckBrigadeMood"));
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, true);
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle2, this, &ATBGameMode::SetCurrentProgress, 1.f, true);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle3, this, &ATBGameMode::TimerDecrease, 1.f, true);
 	
 }
 
 void ATBGameMode::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+	EndGame();
+}
+
+void ATBGameMode::TimerDecrease()
+{
+	RemainingTime -= 1;
 }
 
 void ATBGameMode::SetCurrentProgress()
@@ -95,6 +105,23 @@ WorkersMood ATBGameMode::CheckBrigadeMood() // проверка общего н�
 	NormalCount = 0;
 	BadCount = 0;
  	return MoodResult;
- } 
+ }
 
+void ATBGameMode::EndGame()
+{
+	for(AController* Controller : TActorRange<AController>(GetWorld()))
+	{
+		bool bIsPlayerController = Controller->IsPlayerController();
+		if(RemainingTime == 0)
+		{
+			bool bIsPlayerWinner = true;
+			Controller->GameHasEnded(Controller->GetPawn(), bIsPlayerController);
+		}
+		if (RemainingTime > 0 && CurrentProgress >= 100)
+		{
+			bool bIsPlayerWinner = false;
+			Controller->GameHasEnded(Controller->GetPawn(), !bIsPlayerController);
+		}
+	}
+}
 
