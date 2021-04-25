@@ -9,10 +9,7 @@
 
 UENUM(BlueprintType)
 enum class WorkersState : uint8 {
-	Work ,
-	Idle ,
-	Hand ,
-	Inspire 
+	Initial, Work, Idle, Hand
 };
 
 UENUM(BlueprintType)
@@ -31,7 +28,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	WorkersState WorkerState;
+	WorkersState WorkerState = WorkersState::Initial;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	WorkersMood WorkerMood;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

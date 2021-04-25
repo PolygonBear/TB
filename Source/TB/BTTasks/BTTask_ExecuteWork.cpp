@@ -17,7 +17,37 @@ EBTNodeResult::Type UBTTask_ExecuteWork::ExecuteTask(UBehaviorTreeComponent& Own
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	AEnemyCharacter* Character = Cast<AEnemyCharacter>(OwnerComp.GetAIOwner()->GetPawn());
-	Character->ChangeWorkingState();
+
+	switch (Character->WorkerState)
+	{
+		case WorkersState::Initial:
+			{
+				Character->ChangeWorkingState();
+				break;
+			}
+		case WorkersState::Hand:
+			{
+				Character->WorkerState = WorkersState::Hand;
+				break;
+			}
+		case WorkersState::Idle:
+			{
+				Character->WorkerState = WorkersState::Idle;
+				break;
+			}
+		case WorkersState::Work:
+			{
+				Character->ChangeWorkingState();
+				break;
+			}
+		default:
+			{
+				Character->ChangeWorkingState();
+				break;
+			}		
+	}
+	
+	
 	if(Character->WorkerState == WorkersState::Work)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("WORK!"));

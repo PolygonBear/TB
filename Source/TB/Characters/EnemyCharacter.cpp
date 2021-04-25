@@ -48,7 +48,7 @@ WorkersState AEnemyCharacter::ChangeWorkingState()
 {
 	int Value =	FMath::RandRange(1, 100);
 	
-	if(Value<=40)
+	if(Value<=10)
 	{
 		return WorkerState = WorkersState::Hand;
 	}
