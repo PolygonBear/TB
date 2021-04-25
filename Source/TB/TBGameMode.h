@@ -34,8 +34,10 @@ protected:
 	WorkersMood MoodResult; //возвращаем значение общего настроения
 	
 	TArray<AActor*> WorkersActors; //массив ии
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MaxTime = 100;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float RemainingTime = 100;
 	
 	void EndGame();	

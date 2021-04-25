@@ -30,6 +30,6 @@ private:
 	
 protected:
 	virtual void BeginPlay() override;
-	
-	void GameHasEnded(AActor* EndGameFocus, bool bIsWinner);
+
+	virtual void GameHasEnded(AActor* EndGameFocus, bool bIsWinner) override;
 };

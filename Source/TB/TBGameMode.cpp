@@ -4,6 +4,7 @@
 
 #include "EngineUtils.h"
 #include "Characters/EnemyCharacter.h"
+#include "Controllers/BTPlayerController.h"
 #include "Controllers/TBAIController.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -28,6 +29,7 @@ void ATBGameMode::BeginPlay()
 	TimerDel.BindUFunction(this, FName("CheckBrigadeMood"));
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, true);
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle2, this, &ATBGameMode::SetCurrentProgress, 1.f, true);
+	RemainingTime = MaxTime;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle3, this, &ATBGameMode::TimerDecrease, 1.f, true);
 	
 }
@@ -109,19 +111,17 @@ WorkersMood ATBGameMode::CheckBrigadeMood() // проверка общего н�
 
 void ATBGameMode::EndGame()
 {
-	for(AController* Controller : TActorRange<AController>(GetWorld()))
+	ABTPlayerController* Controller = Cast<ABTPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	
+	if(RemainingTime == 0)
 	{
-		bool bIsPlayerController = Controller->IsPlayerController();
-		if(RemainingTime == 0)
-		{
-			bool bIsPlayerWinner = true;
-			Controller->GameHasEnded(Controller->GetPawn(), bIsPlayerController);
-		}
-		if (RemainingTime > 0 && CurrentProgress >= 100)
-		{
-			bool bIsPlayerWinner = false;
-			Controller->GameHasEnded(Controller->GetPawn(), !bIsPlayerController);
-		}
+		bool bIsPlayerWinner = false;
+		//Controller->GameHasEnded
+	}
+	if (RemainingTime > 0 && CurrentProgress >= 100)
+	{
+		bool bIsPlayerWinner = true;
+		//Controller->GameHasEnded(Controller->GetPawn(), !bIsPlayerWinner);
 	}
 }
 
