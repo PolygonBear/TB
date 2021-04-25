@@ -46,17 +46,17 @@ WorkersMood AEnemyCharacter::ChangeWorkingMood()
 
 WorkersState AEnemyCharacter::ChangeWorkingState()
 {
-	int Value =	FMath::RandRange(1, 100);
+	//int Value =	FMath::RandRange(1, 100);
 	
-	if(Value<=10)
+	if(WorkerMood == WorkersMood::Bad)
 	{
 		return WorkerState = WorkersState::Hand;
 	}
-	if (Value>10 && Value<=40)
+	if (WorkerMood == WorkersMood::Normal)
 	{
 		return WorkerState = WorkersState::Idle;
 	}
-	if (Value>40 && Value<=100)
+	if (WorkerMood == WorkersMood::Good)
 	{
 		return WorkerState = WorkersState::Work;
 	}
