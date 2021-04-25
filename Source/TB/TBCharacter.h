@@ -71,5 +71,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float WorkPoints = 5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool MoveToMoodPoint = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool MoveToHealPoint = false;
+	
 };
 

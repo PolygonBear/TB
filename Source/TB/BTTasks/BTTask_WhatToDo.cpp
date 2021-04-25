@@ -16,13 +16,7 @@ EBTNodeResult::Type UBTTask_WhatToDo::ExecuteTask(UBehaviorTreeComponent& OwnerC
 {
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
-	ATBCharacter* Player = Cast<ATBCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	if(Player == nullptr)
-	{
-		return EBTNodeResult::Failed;
-	}
-	
+	OwnerComp.GetBlackboardComponent()->SetValueAsBool("isWorking", true);
 
 	return EBTNodeResult::Succeeded;
-	
 }
