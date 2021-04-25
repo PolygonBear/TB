@@ -12,7 +12,8 @@
 
 ATBGameMode::ATBGameMode()
 {
-
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 void ATBGameMode::BeginPlay()
@@ -111,17 +112,17 @@ WorkersMood ATBGameMode::CheckBrigadeMood() // проверка общего н�
 
 void ATBGameMode::EndGame()
 {
-	ABTPlayerController* Controller = Cast<ABTPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	APlayerController* Controller = Cast<ABTPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	
 	if(RemainingTime == 0)
 	{
 		bool bIsPlayerWinner = false;
-		//Controller->GameHasEnded
+		Controller->GameHasEnded(Controller->GetPawn(), bIsPlayerWinner);
 	}
 	if (RemainingTime > 0 && CurrentProgress >= 100)
 	{
 		bool bIsPlayerWinner = true;
-		//Controller->GameHasEnded(Controller->GetPawn(), !bIsPlayerWinner);
+		Controller->GameHasEnded(Controller->GetPawn(), !bIsPlayerWinner);
 	}
 }
 
