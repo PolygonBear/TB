@@ -20,20 +20,20 @@ public:
 
 protected:
 	virtual void Tick(float DeltaSeconds) override;
-		
-	int32 GetEnemyCount();
-	int32 WorkersCount = 0;
 
+	UFUNCTION()
+	WorkersMood CheckBrigadeMood(); //проверка общего настроения
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	WorkersMood MoodResult; //возвращаем значение общего настроения
+	
+	TArray<AActor*> WorkersActors; //массив ии
+
+
+private:
 	int GoodCount = 0;
 	int NormalCount = 0;
 	int BadCount = 0;
-
-	WorkersMood CheckBrigadeMood();
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	WorkersMood MoodResult;
-	
-
 };
 
 

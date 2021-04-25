@@ -1,11 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "TBGameMode.h"
-#include "TBCharacter.h"
 #include "Characters/EnemyCharacter.h"
 #include "Controllers/TBAIController.h"
 #include "Kismet/GameplayStatics.h"
-#include "UObject/ConstructorHelpers.h"
 
 
 
@@ -16,21 +14,25 @@ ATBGameMode::ATBGameMode()
 
 void ATBGameMode::BeginPlay()
 {
-	Super::BeginPlay();	
+	Super::BeginPlay();
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemyCharacter::StaticClass(), WorkersActors); //Записываем всех ИИ для проверки в массив
+
+	//Проверка общего настроения каждые 5 секунд 
+	FTimerHandle TimerHandle;
+	FTimerDelegate TimerDel;
+	TimerDel.BindUFunction(this, FName("CheckBrigadeMood"));
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, true);
+	
 }
 
 void ATBGameMode::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-    
-	CheckBrigadeMood();
 }
     
- WorkersMood ATBGameMode::CheckBrigadeMood()
- {	
- 	TArray<AActor*> WorkersActors;
- 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemyCharacter::StaticClass(), WorkersActors);
- 	
+ WorkersMood ATBGameMode::CheckBrigadeMood() // проверка общего настроения
+ {	 	
  	for(AActor* Actor : WorkersActors)
  	{
  		AEnemyCharacter* Worker = Cast<AEnemyCharacter>(Actor);
@@ -82,6 +84,6 @@ void ATBGameMode::Tick(float DeltaSeconds)
 	NormalCount = 0;
 	BadCount = 0;
  	return MoodResult;
- }
+ } 
 
 
