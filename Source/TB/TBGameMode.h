@@ -21,6 +21,11 @@ public:
 protected:
 	virtual void Tick(float DeltaSeconds) override;
 
+	void SetCurrentProgress();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) 
+	float CurrentProgress = 0.f; // Текущий прогресс работы
+
+
 	UFUNCTION()
 	WorkersMood CheckBrigadeMood(); //проверка общего настроения
 	
@@ -29,6 +34,7 @@ protected:
 	
 	TArray<AActor*> WorkersActors; //массив ии
 
+	
 
 private:
 	int GoodCount = 0;

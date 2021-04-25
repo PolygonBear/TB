@@ -26,27 +26,6 @@ void AEnemyCharacter::DecreaseMood(float DeltaSeconds)
 	CurrentMood = CurrentMood - MoodDecraseRate * DeltaSeconds;
 }
 
-
-WorkersState AEnemyCharacter::ChangeWorkingState()
-{
-	int Value =	FMath::RandRange(1, 100);
-	
-	if(Value<=10)
-	{
-		return WorkerState = WorkersState::Hand;
-	}
-	if (Value>10 && Value<=40)
-	{
-		return WorkerState = WorkersState::Idle;
-	}
-	if (Value>40 && Value<=100)
-	{
-		return WorkerState = WorkersState::Work;
-	}
-	
-	return WorkerState;
-}
-
 WorkersMood AEnemyCharacter::ChangeWorkingMood()
 {
 	if(CurrentMood>=70)
@@ -65,6 +44,25 @@ WorkersMood AEnemyCharacter::ChangeWorkingMood()
 	return WorkerMood;
 }
 
+WorkersState AEnemyCharacter::ChangeWorkingState()
+{
+	int Value =	FMath::RandRange(1, 100);
+	
+	if(Value<=40)
+	{
+		return WorkerState = WorkersState::Hand;
+	}
+	if (Value>10 && Value<=40)
+	{
+		return WorkerState = WorkersState::Idle;
+	}
+	if (Value>40 && Value<=100)
+	{
+		return WorkerState = WorkersState::Work;
+	}
+	
+	return WorkerState;
+}
 void AEnemyCharacter::CheckWorkerState()
 {
 	switch (WorkerState)
@@ -77,17 +75,15 @@ void AEnemyCharacter::CheckWorkerState()
 	case WorkersState::Idle:
 		{
 			AIWorkPoints = 0;
-			PlayerWorkPoints = PlayerWorkPoints / PlayerWorkPointsDivision;
+			PlayerWorkPoints = PlayerWorkPoints / IdleWorkPointsDivision;
 			break;
 		}
 	case WorkersState::Work:
 		{
-			AIWorkPoints = 0.01;	
+			AIWorkPoints = 0.5;	
 			break;
 		}
 	default:
 		break;
 	}
 }
-
-

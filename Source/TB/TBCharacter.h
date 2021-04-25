@@ -69,7 +69,7 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	UPROPERTY(EditAnywhere)
-	float WorkPoints = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float WorkPoints = 5;
 };
 

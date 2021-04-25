@@ -44,12 +44,12 @@ public:
 	void DecreaseMood(float DeltaSeconds);
 	
 	UPROPERTY(EditAnywhere)
-	float AIWorkPoints;
+	float AIWorkPoints = 0;
 	
 	float PlayerWorkPoints;
 	
 	UPROPERTY(EditAnywhere)
-	float PlayerWorkPointsDivision = 2.f;
+	float IdleWorkPointsDivision = 2.f;
 
 	WorkersState ChangeWorkingState();
 	WorkersMood ChangeWorkingMood();

@@ -20,9 +20,11 @@ void ATBGameMode::BeginPlay()
 
 	//Проверка общего настроения каждые 5 секунд 
 	FTimerHandle TimerHandle;
+	FTimerHandle TimerHandle2;
 	FTimerDelegate TimerDel;
 	TimerDel.BindUFunction(this, FName("CheckBrigadeMood"));
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, true);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle2, this, &ATBGameMode::SetCurrentProgress, 1.f, true);
 	
 }
 
@@ -30,8 +32,17 @@ void ATBGameMode::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 }
-    
- WorkersMood ATBGameMode::CheckBrigadeMood() // проверка общего настроения
+
+void ATBGameMode::SetCurrentProgress()
+{
+	for(AActor* Actor : WorkersActors)
+	{
+		AEnemyCharacter* Worker = Cast<AEnemyCharacter>(Actor);
+		CurrentProgress += Worker->AIWorkPoints;
+	}	
+}
+
+WorkersMood ATBGameMode::CheckBrigadeMood() // проверка общего настроения
  {	 	
  	for(AActor* Actor : WorkersActors)
  	{
