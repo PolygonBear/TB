@@ -3,6 +3,7 @@
 #include "TBCharacter.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
+#include "Characters/EnemyCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -77,6 +78,8 @@ void ATBCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputC
 }
 
 
+
+
 void ATBCharacter::OnResetVR()
 {
 	// If TB is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in TB.Build.cs is not automatically propagated
@@ -136,5 +139,39 @@ void ATBCharacter::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
+	}
+}
+
+void ATBCharacter::AskWorker()
+{
+	FHitResult Hit;
+	FVector Location = GetActorLocation(); 
+	FRotator Rotation;
+
+	 FVector End = Location + Rotation.Vector() * 200;
+	 FCollisionQueryParams Params;
+	 Params.AddIgnoredActor(this);
+	 Params.AddIgnoredActor(GetOwner());
+	
+	bool bSuccses = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECC_GameTraceChannel1, Params, FCollisionResponseParams::DefaultResponseParam);
+	if(bSuccses)
+	{
+		//shot damage event
+		AActor* HitActor = Hit.GetActor();
+		if (HitActor != nullptr)
+		{
+			WorkerActor = HitActor;
+			// AEnemyCharacter* Worker = Cast<AEnemyCharacter>(HitActor);
+			// if(Worker != nullptr)
+			// {
+			// 	UE_LOG(LogTemp, Warning, TEXT("Worker name is %s"), *Worker->GetName());
+			// 	Worker->CurrentMood = Worker->MaxMood;
+			// 	UE_LOG(LogTemp, Warning, TEXT("food is %f"), Worker->CurrentMood);
+			// }
+		}		
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("!!!!!!!!!!!"));
 	}
 }

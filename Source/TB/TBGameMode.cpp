@@ -29,7 +29,6 @@ void ATBGameMode::BeginPlay()
 	FTimerDelegate TimerDel;
 	TimerDel.BindUFunction(this, FName("CheckBrigadeMood"));
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, true);
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle2, this, &ATBGameMode::SetCurrentProgress, 1.f, true);
 	RemainingTime = MaxTime;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle3, this, &ATBGameMode::TimerDecrease, 1.f, true);
 	

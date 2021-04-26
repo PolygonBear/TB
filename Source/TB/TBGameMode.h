@@ -18,13 +18,15 @@ public:
 	
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) 
+	float CurrentProgress = 0.f; // Текущий прогресс работы
+
 protected:
 	virtual void Tick(float DeltaSeconds) override;
 	void TimerDecrease();
 
 	void SetCurrentProgress();
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) 
-	float CurrentProgress = 0.f; // Текущий прогресс работы
+
 
 
 	UFUNCTION()
@@ -45,9 +47,7 @@ protected:
 private:
 	int GoodCount = 0;
 	int NormalCount = 0;
-	int BadCount = 0;
-
-	
+	int BadCount = 0;	
 };
 
 

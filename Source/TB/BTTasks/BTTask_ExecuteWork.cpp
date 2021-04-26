@@ -4,6 +4,9 @@
 #include "BTTask_ExecuteWork.h"
 
 #include "AIController.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "TB/TBGameMode.h"
 #include "TB/Characters/EnemyCharacter.h"
 
 
@@ -17,6 +20,7 @@ EBTNodeResult::Type UBTTask_ExecuteWork::ExecuteTask(UBehaviorTreeComponent& Own
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	AEnemyCharacter* Character = Cast<AEnemyCharacter>(OwnerComp.GetAIOwner()->GetPawn());
+	
 
 	switch (Character->WorkerState)
 	{
@@ -47,7 +51,6 @@ EBTNodeResult::Type UBTTask_ExecuteWork::ExecuteTask(UBehaviorTreeComponent& Own
 			}		
 	}
 	
-	
 	if(Character->WorkerState == WorkersState::Work)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("WORK!"));
@@ -60,7 +63,14 @@ EBTNodeResult::Type UBTTask_ExecuteWork::ExecuteTask(UBehaviorTreeComponent& Own
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hand!"));
 	}
-	
+
+	Character->bIsWorking = false;
+	OwnerComp.GetBlackboardComponent()->SetValueAsBool("isWorking", Character->bIsWorking);
+
+	Character->DecreaseMaterial(); //уменьшаем количество материала после работы
+
+	ATBGameMode* GameMode = Cast<ATBGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	GameMode->CurrentProgress += Character->CheckWorkerMood();	//проверяем состояние работника и прибавляем в прогресс	
 
 	return EBTNodeResult::Succeeded;
 }

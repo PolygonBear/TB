@@ -3,9 +3,11 @@
 
 #include "BTTask_WhatToDo.h"
 
+#include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Kismet/GameplayStatics.h"
-#include "TB/TBCharacter.h"
+#include "TB/Characters/EnemyCharacter.h"
+
+class AEnemyCharacter;
 
 UBTTask_WhatToDo::UBTTask_WhatToDo()
 {
@@ -16,7 +18,10 @@ EBTNodeResult::Type UBTTask_WhatToDo::ExecuteTask(UBehaviorTreeComponent& OwnerC
 {
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
-	OwnerComp.GetBlackboardComponent()->SetValueAsBool("isWorking", true);
+	AEnemyCharacter* Character = Cast<AEnemyCharacter>(OwnerComp.GetAIOwner()->GetPawn());
+	Character->bIsWorking = true;
+
+	OwnerComp.GetBlackboardComponent()->SetValueAsBool("isWorking", Character->bIsWorking);
 
 	return EBTNodeResult::Succeeded;
 }

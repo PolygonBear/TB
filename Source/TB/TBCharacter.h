@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "TBCharacter.generated.h"
 
+class AEnemyCharacter;
 UCLASS(config=Game)
 class ATBCharacter : public ACharacter
 {
@@ -39,6 +40,8 @@ protected:
 
 	/** Called for side to side input */
 	void MoveRight(float Value);
+	UFUNCTION(BlueprintCallable)
+	void AskWorker();
 
 	/** 
 	 * Called via input to turn at a given rate. 
@@ -69,13 +72,18 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float WorkPoints = 5;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+
+	UPROPERTY(BlueprintReadWrite)
 	bool MoveToMoodPoint = false;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	bool MoveToHealPoint = false;
+	UPROPERTY(BlueprintReadWrite)
+	bool MoveToMaterialPoint = false;
+	UPROPERTY(BlueprintReadWrite)
+	bool MoveToFoodPoint = false;
+	UPROPERTY(BlueprintReadWrite)
+	AActor* WorkerActor;
 	
 };
 

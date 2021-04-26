@@ -23,30 +23,54 @@ void UBTService_WhereToMove::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 		UE_LOG(LogTemp, Warning, TEXT("Cast failed"));
 		return;
 	}
-	
-	TArray<AActor*> InteractiveTables;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AInteractiveTables::StaticClass(), InteractiveTables);
+
 	
 	if(Player->MoveToMoodPoint == true)
 	{
-		for (AActor* Actor : InteractiveTables)
-		{
-			AInteractiveTables* Table = Cast<AInteractiveTables>(Actor);
-			if(Table->bMoodTable == true)
-			{
-				OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), Table->GetActorLocation());
-			}
-		}
+		OwnerComp.GetBlackboardComponent()->SetValueAsBool("MoveToMood", Player->MoveToMoodPoint);
 	}
-	if(Player->MoveToMoodPoint == true)
+	else
 	{
-		for (AActor* Actor : InteractiveTables)
-		{
-			AInteractiveTables* Table = Cast<AInteractiveTables>(Actor);
-			if(Table->bHealTable == true)
-			{
-				OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), Table->GetActorLocation());
-			}
-		}
+		OwnerComp.GetBlackboardComponent()->SetValueAsBool("MoveToMood", Player->MoveToMoodPoint);
+	}
+	
+	if(Player->MoveToHealPoint == true)
+	{
+		OwnerComp.GetBlackboardComponent()->SetValueAsBool("MoveToHeal", Player->MoveToHealPoint);
+	}
+	else
+	{
+		OwnerComp.GetBlackboardComponent()->SetValueAsBool("MoveToHeal", Player->MoveToHealPoint);
+	}
+	
+	if(Player->MoveToMaterialPoint == true)
+	{
+		OwnerComp.GetBlackboardComponent()->SetValueAsBool("MoveToMaterial", Player->MoveToMaterialPoint);
+	}
+	else
+	{
+		OwnerComp.GetBlackboardComponent()->SetValueAsBool("MoveToMaterial", Player->MoveToMaterialPoint);
+	}
+
+	if(Player->MoveToFoodPoint == true)
+	{
+		OwnerComp.GetBlackboardComponent()->SetValueAsBool("MoveToFood", Player->MoveToFoodPoint);
+	}
+	else
+	{
+		OwnerComp.GetBlackboardComponent()->SetValueAsBool("MoveToFood", Player->MoveToFoodPoint);
 	}
 }
+
+
+//TArray<AActor*> InteractiveTables;
+//UGameplayStatics::GetAllActorsOfClass(GetWorld(), AInteractiveTables::StaticClass(), InteractiveTables);
+
+// for (AActor* Actor : InteractiveTables)
+// {
+// 	AInteractiveTables* Table = Cast<AInteractiveTables>(Actor);
+// 	if(Table->bMoodTable == true)
+// 	{
+// 		OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), Table->GetActorLocation());
+// 	}
+// }
